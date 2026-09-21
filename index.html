@@ -18,178 +18,235 @@
             overflow-x: hidden;
         }
         header {
-            margin-top: 20px;
+            margin-top: 25px;
             text-align: center;
             padding: 15px;
         }
         header h1 {
             color: #ff3333;
-            text-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
-            font-size: 2.2rem;
+            text-shadow: 0 0 15px rgba(255, 51, 51, 0.8);
+            font-size: 2.3rem;
             display: inline-block;
             vertical-align: middle;
+            letter-spacing: 1px;
         }
         .site-logo {
-            height: 45px;
+            height: 48px;
             vertical-align: middle;
             margin-right: 12px;
             border-radius: 50%;
             border: 2px solid #ff3333;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
         }
-        #hub-menu {
-            text-align: center;
-            margin-top: 20px;
+
+        .container {
             width: 100%;
-            max-width: 900px;
-            padding: 20px;
-        }
-        .hub-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #ff9999;
-        }
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 0 15px;
-            margin-bottom: 25px;
-            justify-content: center;
-        }
-        .game-card {
-            background: rgba(255, 51, 51, 0.05);
-            border: 2px solid #ff3333;
-            border-radius: 12px;
-            padding: 25px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
-            max-width: 350px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .game-card:hover {
-            background: rgba(255, 51, 51, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
-        }
-        .game-card h3 {
-            color: #ff4d4d;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .game-card p {
-            color: #ccc;
-            font-size: 0.95rem;
-        }
-        #game-container {
-            display: none;
-            width: 100%;
-            max-width: 800px;
+            max-width: 700px;
             margin-top: 20px;
             text-align: center;
             padding: 10px;
         }
-        .back-btn {
-            background-color: #ff3333;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 6px;
+
+        .page-section {
+            display: none;
+            width: 100%;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Home Selection Cards */
+        .select-title {
+            color: #ff9999;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+        .game-card {
+            background: linear-gradient(145deg, rgba(26, 0, 0, 0.9), rgba(15, 2, 2, 0.95));
+            border: 2px solid #ff3333;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
             cursor: pointer;
-            margin-bottom: 15px;
-            transition: background 0.2s;
-            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.3);
+            transition: all 0.3s ease;
+            text-align: left;
         }
-        .back-btn:hover {
-            background-color: #e60000;
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px rgba(255, 51, 51, 0.7);
+            border-color: #ff4d4d;
         }
-        .memory-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 30px;
+        .game-card h3 {
+            color: #ff4d4d;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
         }
-        .score-board {
-            display: flex;
-            gap: 20px;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+        .game-card p {
+            color: #b3b3b3;
+            font-size: 0.95rem;
+        }
+
+        /* Back Button */
+        .back-btn {
             background: rgba(255, 51, 51, 0.1);
             border: 1px solid #ff3333;
-            padding: 10px 25px;
+            color: #ff9999;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            float: left;
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover {
+            background: #ff3333;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+        }
+
+        /* Memory Game Styles */
+        .memory-stats {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            background: rgba(255, 51, 51, 0.08);
+            border: 1px solid #ff3333;
+            padding: 10px 30px;
             border-radius: 8px;
             color: #ff9999;
             font-weight: bold;
+            clear: both;
         }
-        .score-board span {
-            color: #fff;
-        }
+        .memory-stats span { color: #fff; }
         .memory-grid {
             display: grid;
-            grid-template-columns: repeat(4, 90px);
-            grid-gap: 15px;
-            perspective: 1000px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            background: linear-gradient(145deg, rgba(26, 0, 0, 0.9), rgba(15, 2, 2, 0.95));
+            border: 2px solid #ff3333;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+            clear: both;
         }
-        .card {
-            width: 90px;
-            height: 90px;
-            background-color: transparent;
+        .memory-card-item {
+            aspect-ratio: 1;
+            background: #cc0000;
+            border: 2px solid #ff6666;
             border-radius: 10px;
-            cursor: pointer;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.4s ease;
-        }
-        .card.flip {
-            transform: rotateY(180deg);
-        }
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
+            font-size: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
-            border: 2px solid #ff3333;
-            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
-            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
         }
-        .card-front {
-            background: linear-gradient(135deg, #1a0000, #330000);
-            color: #ff3333;
-            font-weight: bold;
-            font-size: 32px;
+        .memory-card-item:hover { transform: scale(1.05); }
+        .memory-card-item.flipped {
+            background: #1a0000;
+            border-color: #ff3333;
         }
-        .card-back {
-            background: #15171e;
-            transform: rotateY(180deg);
-        }
-        .card-back img {
+
+        /* Quiz Game Styles */
+        .quiz-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            padding-bottom: 30px;
+            clear: both;
         }
+        .stats-board {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            background: rgba(255, 51, 51, 0.08);
+            border: 1px solid #ff3333;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #ff9999;
+            font-weight: bold;
+            width: 100%;
+        }
+        .stats-board span { color: #fff; }
+        .quiz-box {
+            background: linear-gradient(145deg, rgba(26, 0, 0, 0.9), rgba(15, 2, 2, 0.95));
+            border: 2px solid #ff3333;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+            text-align: left;
+        }
+        .quiz-question {
+            font-size: 1.15rem;
+            color: #ff9999;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            background: rgba(255, 51, 51, 0.05);
+            border: 1px solid #ff3333;
+            color: #fff;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            background: rgba(255, 51, 51, 0.25);
+            border-color: #ff4d4d;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.4);
+        }
+        .option-btn.correct { background: rgba(0, 255, 0, 0.2); border-color: #00ff00; }
+        .option-btn.wrong { background: rgba(255, 0, 0, 0.3); border-color: #ff0000; }
+        
+        .result-box {
+            text-align: left;
+            background: linear-gradient(145deg, rgba(26, 0, 0, 0.9), rgba(15, 2, 2, 0.95));
+            border: 2px solid #ff3333;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        .result-box h2 { color: #ff4d4d; margin-bottom: 15px; text-align: center; }
+        .summary-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 51, 51, 0.2); }
+        .summary-item p { margin-bottom: 5px; font-size: 0.95rem; }
+        .wrong-review { color: #ff6666; }
+        .correct-review { color: #66ff66; }
         .restart-btn {
             margin-top: 20px;
-            padding: 10px 22px;
+            padding: 12px 25px;
             font-size: 1rem;
-            background-color: #ff3333;
+            background: linear-gradient(135deg, #ff3333, #cc0000);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 51, 51, 0.4);
-            transition: all 0.3s;
+            box-shadow: 0 0 12px rgba(255, 51, 51, 0.5);
+            width: 100%;
+            transition: all 0.3s ease;
         }
         .restart-btn:hover {
-            background-color: #e60000;
-            box-shadow: 0 0 15px rgba(255, 51, 51, 0.8);
+            background: linear-gradient(135deg, #e60000, #990000);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.9);
         }
     </style>
 </head>
@@ -200,160 +257,262 @@
         <h1>ARIQUE YTB GAMING HUB</h1>
     </header>
 
-    <div id="hub-menu">
-        <div class="hub-title">Select a Game to Play</div>
-        <div class="game-grid">
-            <div class="game-card" onclick="loadMemoryGame()">
-                <h3>🧠 Memory Match Game</h3>
-                <p>Test your memory with matching cards!</p>
+    <div class="container">
+        <!-- Home / Game Selection Page -->
+        <div id="homePage" class="page-section active">
+            <h2 class="select-title">Select a Game to Play</h2>
+            
+            <div class="game-card" onclick="openGame('memory')">
+                <h3>🎮 Memory Match Game</h3>
+                <p>Test your memory by matching pairs of hidden cards!</p>
             </div>
+
+            <div class="game-card" onclick="openGame('quiz')">
+                <h3>🧠 Arique YTB Quiz Game</h3>
+                <p>Challenge your brain with 10 exciting random riddles and puzzles!</p>
+            </div>
+        </div>
+
+        <!-- Memory Game Section -->
+        <div id="memorySection" class="page-section">
+            <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+            <div class="memory-stats">
+                <div>Moves: <span id="memoryMoves">0</span></div>
+                <div>Points: <span id="memoryPoints">0</span></div>
+            </div>
+            <div class="memory-grid" id="memoryGrid"></div>
+        </div>
+
+        <!-- Quiz Game Section -->
+        <div id="quizSection" class="page-section">
+            <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+            <div class="quiz-wrap" id="quizWrap"></div>
         </div>
     </div>
 
-    <div id="game-container">
-        <button class="back-btn" onclick="goBackToMenu()">⬅ Back to Hub</button>
-        <div id="canvas-wrap"></div>
-    </div>
-
     <script>
-        function loadMemoryGame() {
-            document.getElementById('hub-menu').style.display = 'none';
-            document.getElementById('game-container').style.display = 'block';
-            
-            const wrap = document.getElementById('canvas-wrap');
-            wrap.innerHTML = `
-                <div class="memory-wrap">
-                    <div class="score-board">
-                        <div>Moves: <span id="moves">0</span></div>
-                        <div>Points: <span id="score">0</span></div>
-                    </div>
-                    <div class="memory-grid" id="memoryGrid"></div>
-                    <button class="restart-btn" onclick="startMemoryGame()">RESTART GAME</button>
-                </div>
-            `;
-            
-            startMemoryGame();
+        function openGame(gameType) {
+            document.getElementById('homePage').classList.remove('active');
+            if (gameType === 'memory') {
+                document.getElementById('memorySection').classList.add('active');
+                initMemoryGame();
+            } else {
+                document.getElementById('quizSection').classList.add('active');
+                startQuiz();
+            }
         }
 
-        let cardImages = [
-            'https://i.pinimg.com/736x/87/f1/ec/87f1ec68e1d4a02a1315f3b4363f5f25.jpg',
-            'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=300&auto=format&fit=crop&q=60',
-            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&auto=format&fit=crop&q=60',
-            'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=300&auto=format&fit=crop&q=60',
-            'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=300&auto=format&fit=crop&q=60',
-            'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&auto=format&fit=crop&q=60',
-            'https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&auto=format&fit=crop&q=60',
-            'https://images.unsplash.com/photo-1563089145-599997674d42?w=300&auto=format&fit=crop&q=60'
-        ];
+        function goHome() {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('homePage').classList.add('active');
+        }
 
-        let cards = [];
-        let hasFlippedCard = false;
-        let lockBoard = false;
-        let firstCard, secondCard;
-        let moves = 0;
-        let score = 0;
-        let matches = 0;
+        // --- MEMORY GAME LOGIC ---
+        const memoryEmojis = ['🎮', '🔥', '🏆', '💎', '🚀', '⚡', '🎯', '💻'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let memoryMoves = 0;
+        let memoryPoints = 0;
+        let isLockMemory = false;
 
-        function startMemoryGame() {
-            cards = [...cardImages, ...cardImages];
-            hasFlippedCard = false;
-            lockBoard = false;
-            firstCard = null;
-            secondCard = null;
-            moves = 0;
-            score = 0;
-            matches = 0;
+        function initMemoryGame() {
+            memoryCards = [...memoryEmojis, ...memoryEmojis]
+                .sort(() => Math.random() - 0.5)
+                .map((emoji, index) => ({ id: index, emoji, isFlipped: false, isMatched: false }));
+            
+            memoryMoves = 0;
+            memoryPoints = 0;
+            matchedPairs = 0;
+            flippedCards = [];
+            isLockMemory = false;
+            
+            document.getElementById('memoryMoves').innerText = memoryMoves;
+            document.getElementById('memoryPoints').innerText = memoryPoints;
+            renderMemoryBoard();
+        }
 
+        function renderMemoryBoard() {
             const grid = document.getElementById('memoryGrid');
-            const movesDisplay = document.getElementById('moves');
-            const scoreDisplay = document.getElementById('score');
-            
-            if(!grid) return;
-            
             grid.innerHTML = '';
-            movesDisplay.innerText = moves;
-            scoreDisplay.innerText = score;
-            cards.sort(() => Math.random() - 0.5);
-
-            cards.forEach(imgUrl => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-                card.dataset.image = imgUrl;
-
-                card.innerHTML = `
-                    <div class="card-face card-front">?</div>
-                    <div class="card-face card-back"><img src="${imgUrl}" alt="Game Card"></div>
-                `;
-
-                card.addEventListener('click', flipCard);
-                grid.appendChild(card);
+            memoryCards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.classList.add('memory-card-item');
+                if (card.isFlipped || card.isMatched) {
+                    cardEl.classList.add('flipped');
+                    cardEl.innerText = card.emoji;
+                } else {
+                    cardEl.innerText = '?';
+                }
+                cardEl.onclick = () => flipMemoryCard(index);
+                grid.appendChild(cardEl);
             });
         }
 
-        function flipCard() {
-            if (lockBoard) return;
-            if (this === firstCard) return;
+        function flipMemoryCard(index) {
+            if (isLockMemory || memoryCards[index].isFlipped || memoryCards[index].isMatched) return;
 
-            this.classList.add('flip');
+            memoryCards[index].isFlipped = true;
+            flippedCards.push({ index, emoji: memoryCards[index].emoji });
+            renderMemoryBoard();
 
-            if (!hasFlippedCard) {
-                hasFlippedCard = true;
-                firstCard = this;
+            if (flippedCards.length === 2) {
+                memoryMoves++;
+                document.getElementById('memoryMoves').innerText = memoryMoves;
+                checkForMemoryMatch();
+            }
+        }
+
+        function checkForMemoryMatch() {
+            const [card1, card2] = flippedCards;
+            if (card1.emoji === card2.emoji) {
+                memoryCards[card1.index].isMatched = true;
+                memoryCards[card2.index].isMatched = true;
+                matchedPairs++;
+                memoryPoints += 10;
+                document.getElementById('memoryPoints').innerText = memoryPoints;
+                flippedCards = [];
+
+                if (matchedPairs === memoryEmojis.length) {
+                    setTimeout(() => alert('🎉 Congratulations! You won the Memory Game!'), 300);
+                }
+            } else {
+                isLockMemory = true;
+                setTimeout(() => {
+                    memoryCards[card1.index].isFlipped = false;
+                    memoryCards[card2.index].isFlipped = false;
+                    flippedCards = [];
+                    isLockMemory = false;
+                    renderMemoryBoard();
+                }, 900);
+            }
+        }
+
+        // --- QUIZ GAME LOGIC ---
+        const allQuizData = [
+            { q: "এমন কোন জিনিস, যা আপনি ডান হাত দিয়ে ধরতে পারলেও নিজের বাম হাত দিয়ে কখনোই ছুঁতে পারবেন না?", options: ["আপনার নিজের পিঠ", "আপনার বাম হাতের কনুই", "আপনার ডান হাতের কবজি", "আপনার মাথার চুল"], correct: 1 },
+            { q: "একটি রুমের ভেতর চারকোনা একটি টেবিল আছে। টেবিলের চার কোনায় চারটি বিড়াল বসে আছে। প্রতিটি বিড়ালের সামনে আরও তিনটি করে বিড়াল আছে। বলুন তো, ওই রুমে মোট কয়টি বিড়াল আছে?", options: ["১২টি", "১৬টি", "৪টি", "৮টি"], correct: 2 },
+            { q: "এমন কোন ড্রাইভার আছে যার কোনো লাইসেন্স লাগে না, এমনকি সে কোনো গাড়িও চালায় না?", options: ["স্ক্রু-ড্রাইভার (Screw-driver)", "ট্রেন ড্রাইভার", "পাইলট", "বাস ড্রাইভার"], correct: 0 },
+            { q: "বলুন তো, এমন কোন জিনিস যা ভাঙার পরেই কেবল ব্যবহার করা যায়?", options: ["লক বা তালা", "ডিম", "নারকেল", "খ ও গ উভয়ই"], correct: 3 },
+            { q: "এমন কোন পাখি আছে, যার ডানা বা পাখা আছে কিন্তু সে উড়তে পারে না, তবে সাঁতার কাটতে পারে চমৎকার?", options: ["উটপাখি", "পেঙ্গুইন", "কিউই", "ময়ূর"], correct: 1 },
+            { q: "যার যত বেশি বুদ্ধি থাকবে, সে এটিকে তত বেশি ছড়াবে। কিন্তু মজার বিষয় হলো, এটি যত বেশি ছড়াবে, নিজের কাছে কিন্তু একটুও কমবে না! জিনিসটি কী?", options: ["টাকা", "আলো", "জ্ঞান", "সুগন্ধ"], correct: 2 },
+            { q: "সবুজ রঙের ঘর আমার, ভেতরে লাল তার রঙ, মুক্তোর মতো দাঁত আছে তার, দেখতে ভারী সং। বলুন তো জিনিসটি কী?", options: ["আপেল", "তরমুজ", "ডালিম", "স্ট্রবেরি"], correct: 1 },
+            { q: "আমি কথা বলতে পারি না, কিন্তু কেউ আমার সামনে এসে দাঁড়ালে আমি তার সব রূপ হুবহু ফুটিয়ে তুলি। আমি কী?", options: ["ক্যামেরা", "ছবি", "আয়না", "ছায়া"], correct: 2 },
+            { q: "বলুন তো, এমন কোন জিনিস যা সুখে থাকলে আপনার চোখ দিয়ে বের হয় না, কিন্তু কষ্টে থাকলে অথবা অতিরিক্ত হাসলে চোখ দিয়ে অনায়াসে ঝরে পড়ে?", options: ["রাগ", "রক্ত", "জল বা চোখের জল", "ঘাম"], correct: 2 },
+            { q: "বলুন তো, এমন কোন জিনিস যা যত বেশি বাড়ে, আমাদের দেখার ক্ষমতা তত বেশি কমে যায়?", options: ["আলো", "অন্ধকার", "কুয়াশা", "খ ও গ উভয়ই"], correct: 3 },
+            { q: "বলুন তো, এমন কোন জিনিস যা তৈরি করার সময় গান গায়, ব্যবহারের সময় কান্নাকাটি করে, আর কাজ শেষ হলে শান্ত হয়ে যায়?", options: ["মোমবাতি", "চাপাতা / কেটলি", "বাঁশি", "গাড়ি"], correct: 1 },
+            { q: "বলুন তো, কোন জিনিসটির পেট চিড়ে দিলে মাথার ওপর দিয়ে হাঁটতে শুরু করে?", options: ["রুলপেন বা পেন্সিল", "চাবি", "কাঁচি", "জুতো"], correct: 0 },
+            { q: "বলুন তো, এমন কোন জিনিস যা জল বা পানি পান করলে মারা যায়, কিন্তু হাওয়া বা বাতাস পেলে বেঁচে থাকে এবং বড় হতে থাকে?", options: ["গাছ", "আগুন", "মানুষ", "মাছ"], correct: 1 },
+            { q: "এমন কোন নদী, যার মধ্যে কোনো জল বা পানি নেই, আবার কোনো শহর বা দেশ পার হতে গেলে কোনো রাস্তার প্রয়োজন হয় না?", options: ["স্বপ্নের নদী", "ম্যাপ বা মানচিত্রের নদী", "শুকনো নদী", "আকাশগঙ্গা বা ছায়াপথ"], correct: 1 },
+            { q: "কোন জিনিসটি একবার ভেঙে গেলে আর জোড়া লাগানো যায় না, এমনকি সারা পৃথিবীর ডাক্তার মিলেও এটিকে ঠিক করতে পারে না?", options: ["কাঁচ", "ডিম", "বিশ্বাস", "ঘড়ি"], correct: 2 },
+            { q: "এমন কোন জিনিস যা নিজের কোনো পা নেই, তবুও সে সারাদিন শুধু ছুটেই চলে এবং কোথাও থেমে থাকে না?", options: ["নদী", "বাতাস", "ঘড়ি", "সময়"], correct: 3 }
+        ];
+
+        let gameQuestions = [];
+        let currentIndex = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let wrongAnswersLog = [];
+
+        function startQuiz() {
+            let shuffled = [...allQuizData];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            gameQuestions = shuffled.slice(0, 10);
+            
+            currentIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            wrongAnswersLog = [];
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentIndex >= 10) {
+                showResults();
                 return;
             }
 
-            secondCard = this;
-            moves++;
-            document.getElementById('moves').innerText = moves;
-            checkForMatch();
+            const qObj = gameQuestions[currentIndex];
+            const wrap = document.getElementById('quizWrap');
+
+            let optionsHtml = '';
+            qObj.options.forEach((opt, idx) => {
+                optionsHtml += `<button class="option-btn" onclick="checkAnswer(this, ${idx}, ${qObj.correct})">${opt}</button>`;
+            });
+
+            wrap.innerHTML = `
+                <div class="stats-board">
+                    <div>Question: <span>${currentIndex + 1} / 10</span></div>
+                    <div>Right: <span style="color:#00ff00">${correctCount}</span></div>
+                    <div>Wrong: <span style="color:#ff3333">${wrongCount}</span></div>
+                </div>
+                <div class="quiz-box">
+                    <div class="quiz-question">${qObj.q}</div>
+                    <div id="optionsList">${optionsHtml}</div>
+                </div>
+            `;
         }
 
-        function checkForMatch() {
-            let isMatch = firstCard.dataset.image === secondCard.dataset.image;
-            if (isMatch) {
-                disableCards();
+        function checkAnswer(btn, selected, correct) {
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            const qObj = gameQuestions[currentIndex];
+
+            if (selected === correct) {
+                btn.classList.add('correct');
+                correctCount++;
             } else {
-                unflipCards();
+                btn.classList.add('wrong');
+                allBtns[correct].classList.add('correct');
+                wrongCount++;
+                wrongAnswersLog.push({
+                    question: qObj.q,
+                    userChoice: qObj.options[selected],
+                    rightChoice: qObj.options[correct]
+                });
             }
-        }
 
-        function disableCards() {
-            firstCard.removeEventListener('click', flipCard);
-            secondCard.removeEventListener('click', flipCard);
-            
-            matches++;
-            score += 10;
-            document.getElementById('score').innerText = score;
-
-            resetBoard();
-
-            if (matches === cardImages.length) {
-                setTimeout(() => {
-                    alert(`VICTORY! You won with ${score} points in ${moves} moves!`);
-                }, 400);
-            }
-        }
-
-        function unflipCards() {
-            lockBoard = true;
             setTimeout(() => {
-                if(firstCard && secondCard) {
-                    firstCard.classList.remove('flip');
-                    secondCard.classList.remove('flip');
-                }
-                resetBoard();
-            }, 900);
+                currentIndex++;
+                loadQuestion();
+            }, 1000);
         }
 
-        function resetBoard() {
-            [hasFlippedCard, lockBoard] = [false, false];
-            [firstCard, secondCard] = [null, null];
-        }
+        function showResults() {
+            const wrap = document.getElementById('quizWrap');
+            
+            let reviewHtml = '';
+            if (wrongAnswersLog.length > 0) {
+                reviewHtml = `<h3 style="color:#ff9999; margin: 15px 0 10px 0;">Wrong Answer Review:</h3>`;
+                wrongAnswersLog.forEach((item, idx) => {
+                    reviewHtml += `
+                        <div class="summary-item">
+                            <p><b>Q${idx + 1}:</b> ${item.question}</p>
+                            <p class="wrong-review">Your Answer: ${item.userChoice}</p>
+                            <p class="correct-review">Correct Answer: ${item.rightChoice}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                reviewHtml = `<p style="color:#00ff00; text-align:center; margin: 20px 0; font-size:1.1rem;">Incredible! You got all 10 answers correct!</p>`;
+            }
 
-        function goBackToMenu() {
-            document.getElementById('game-container').style.display = 'none';
-            document.getElementById('hub-menu').style.display = 'block';
-            document.getElementById('canvas-wrap').innerHTML = '';
+            wrap.innerHTML = `
+                <div class="result-box">
+                    <h2>Quiz Completed!</h2>
+                    <div style="font-size: 1.1rem; text-align: center; margin-bottom: 20px; color: #ff9999;">
+                        Total Correct: <span style="color: #00ff00;">${correctCount} / 10</span><br>
+                        Total Wrong: <span style="color: #ff3333;">${wrongCount} / 10</span>
+                    </div>
+                    ${reviewHtml}
+                    <button class="restart-btn" onclick="startQuiz()">PLAY AGAIN</button>
+                </div>
+            `;
         }
     </script>
 </body>
