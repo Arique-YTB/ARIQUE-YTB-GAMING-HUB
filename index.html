@@ -38,15 +38,158 @@
         }
         #hub-menu {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
             width: 100%;
             max-width: 900px;
             padding: 20px;
         }
         .hub-title {
             font-size: 1.5rem;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #ff9999;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 15px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        .game-card {
+            background: rgba(255, 51, 51, 0.05);
+            border: 2px solid #ff3333;
+            border-radius: 12px;
+            padding: 25px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
+            max-width: 350px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .game-card:hover {
+            background: rgba(255, 51, 51, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
+        }
+        .game-card h3 {
+            color: #ff4d4d;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .game-card p {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+        #game-container {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
+        }
+        .back-btn {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            background-color: #e60000;
+        }
+        .memory-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 30px;
+        }
+        .score-board {
+            display: flex;
+            gap: 20px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid #ff3333;
+            padding: 10px 25px;
+            border-radius: 8px;
+            color: #ff9999;
+            font-weight: bold;
+        }
+        .score-board span {
+            color: #fff;
+        }
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 90px);
+            grid-gap: 15px;
+            perspective: 1000px;
+        }
+        .card {
+            width: 90px;
+            height: 90px;
+            background-color: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease;
+        }
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 2px solid #ff3333;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
+            overflow: hidden;
+        }
+        .card-front {
+            background: linear-gradient(135deg, #1a0000, #330000);
+            color: #ff3333;
+            font-weight: bold;
+            font-size: 32px;
+        }
+        .card-back {
+            background: #15171e;
+            transform: rotateY(180deg);
+        }
+        .card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .restart-btn {
+            margin-top: 20px;
+            padding: 10px 22px;
+            font-size: 1rem;
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.4);
+            transition: all 0.3s;
+        }
+        .restart-btn:hover {
+            background-color: #e60000;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.8);
         }
     </style>
 </head>
@@ -58,8 +201,160 @@
     </header>
 
     <div id="hub-menu">
-        <div class="hub-title">Welcome to Arique YTB Gaming Hub</div>
+        <div class="hub-title">Select a Game to Play</div>
+        <div class="game-grid">
+            <div class="game-card" onclick="loadMemoryGame()">
+                <h3>🧠 Memory Match Game</h3>
+                <p>Test your memory with matching cards!</p>
+            </div>
+        </div>
     </div>
 
+    <div id="game-container">
+        <button class="back-btn" onclick="goBackToMenu()">⬅ Back to Hub</button>
+        <div id="canvas-wrap"></div>
+    </div>
+
+    <script>
+        function loadMemoryGame() {
+            document.getElementById('hub-menu').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            
+            const wrap = document.getElementById('canvas-wrap');
+            wrap.innerHTML = `
+                <div class="memory-wrap">
+                    <div class="score-board">
+                        <div>Moves: <span id="moves">0</span></div>
+                        <div>Points: <span id="score">0</span></div>
+                    </div>
+                    <div class="memory-grid" id="memoryGrid"></div>
+                    <button class="restart-btn" onclick="startMemoryGame()">RESTART GAME</button>
+                </div>
+            `;
+            
+            startMemoryGame();
+        }
+
+        let cardImages = [
+            'https://i.pinimg.com/736x/87/f1/ec/87f1ec68e1d4a02a1315f3b4363f5f25.jpg',
+            'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=300&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=300&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=300&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&auto=format&fit=crop&q=60',
+            'https://images.unsplash.com/photo-1563089145-599997674d42?w=300&auto=format&fit=crop&q=60'
+        ];
+
+        let cards = [];
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+        let moves = 0;
+        let score = 0;
+        let matches = 0;
+
+        function startMemoryGame() {
+            cards = [...cardImages, ...cardImages];
+            hasFlippedCard = false;
+            lockBoard = false;
+            firstCard = null;
+            secondCard = null;
+            moves = 0;
+            score = 0;
+            matches = 0;
+
+            const grid = document.getElementById('memoryGrid');
+            const movesDisplay = document.getElementById('moves');
+            const scoreDisplay = document.getElementById('score');
+            
+            if(!grid) return;
+            
+            grid.innerHTML = '';
+            movesDisplay.innerText = moves;
+            scoreDisplay.innerText = score;
+            cards.sort(() => Math.random() - 0.5);
+
+            cards.forEach(imgUrl => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.image = imgUrl;
+
+                card.innerHTML = `
+                    <div class="card-face card-front">?</div>
+                    <div class="card-face card-back"><img src="${imgUrl}" alt="Game Card"></div>
+                `;
+
+                card.addEventListener('click', flipCard);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flip');
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            moves++;
+            document.getElementById('moves').innerText = moves;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.image === secondCard.dataset.image;
+            if (isMatch) {
+                disableCards();
+            } else {
+                unflipCards();
+            }
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            
+            matches++;
+            score += 10;
+            document.getElementById('score').innerText = score;
+
+            resetBoard();
+
+            if (matches === cardImages.length) {
+                setTimeout(() => {
+                    alert(`VICTORY! You won with ${score} points in ${moves} moves!`);
+                }, 400);
+            }
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+            setTimeout(() => {
+                if(firstCard && secondCard) {
+                    firstCard.classList.remove('flip');
+                    secondCard.classList.remove('flip');
+                }
+                resetBoard();
+            }, 900);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        function goBackToMenu() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('hub-menu').style.display = 'block';
+            document.getElementById('canvas-wrap').innerHTML = '';
+        }
+    </script>
 </body>
 </html>
