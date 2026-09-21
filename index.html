@@ -1,65 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARIQUE YTB GAMING HUB</title>
-    <link rel="icon" type="image/jpeg" href="Arique YTB.jpg">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: #0b0c10;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        header {
-            margin-top: 20px;
-            text-align: center;
-            padding: 15px;
-        }
-        header h1 {
-            color: #ff3333;
-            text-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
-            font-size: 2.2rem;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .site-logo {
-            height: 45px;
-            vertical-align: middle;
-            margin-right: 12px;
-            border-radius: 50%;
-            border: 2px solid #ff3333;
-        }
-        #hub-menu {
-            text-align: center;
-            margin-top: 30px;
-            width: 100%;
-            max-width: 900px;
-            padding: 20px;
-        }
-        .hub-title {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: #ff9999;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIQUE YTB GAMING HUB</title>
+    <link rel="icon" type="image/jpeg" href="Arique YTB.jpg">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b0c10;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        header {
+            margin-top: 20px;
+            text-align: center;
+            padding: 15px;
+        }
+        header h1 {
+            color: #ff3333;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+            font-size: 2.2rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .site-logo {
+            height: 45px;
+            vertical-align: middle;
+            margin-right: 12px;
+            border-radius: 50%;
+            border: 2px solid #ff3333;
+        }
+        #hub-menu {
+            text-align: center;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+        .hub-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #ff9999;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 15px;
+        }
+        .game-card {
+            background: rgba(255, 51, 51, 0.05);
+            border: 2px solid #ff3333;
+            border-radius: 12px;
+            padding: 25px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
+        }
+        .game-card:hover {
+            background: rgba(255, 51, 51, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
+        }
+        .game-card h3 {
+            color: #ff4d4d;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .game-card p {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+        #game-container {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
+        }
+        .back-btn {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background-color: #e60000;
+        }
+        canvas {
+            background: #111;
+            border: 2px solid #ff3333;
+            max-width: 100%;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+        .instructions {
+            margin-top: 10px;
+            color: #ff9999;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <img src="Arique YTB.jpg" alt="Logo" class="site-logo">
-        <h1>ARIQUE YTB GAMING HUB</h1>
-    </header>
+    <header>
+        <img src="Arique YTB.jpg" alt="Logo" class="site-logo">
+        <h1>ARIQUE YTB GAMING HUB</h1>
+    </header>
 
-    <div id="hub-menu">
-        <div class="hub-title">No games available at the moment.</div>
-    </div>
+    <div id="hub-menu">
+        <div class="hub-title">Select a Game to Play</div>
+        <div class="game-grid">
+            <div class="game-card" onclick="loadGame('spaceShooter')">
+                <h3>🚀 Space Shooter</h3>
+                <p>Arcade Shooter</p>
+            </div>
+            <div class="game-card" onclick="loadGame('flappyRocket')">
+                <h3>🚀 Flappy Rocket</h3>
+                <p>Fly through pipes</p>
+            </div>
+            <div class="game-card" onclick="loadGame('carRacing')">
+                <h3>🚗 Car Racing</h3>
+                <p>High-speed highway dodge</p>
+            </div>
+            <div class="game-card" onclick="loadGame('snakeGame')">
+                <h3>🟩 Snake Game</h3>
+                <p>Classic Retro Snake</p>
+            </div>
+            <div class="game-card" onclick="loadGame('neonDodge')">
+                <h3>⚡ Neon Dodge</h3>
+                <p>Dodge falling blocks</p>
+            </div>
+        </div>
+    </div>
 
+    <div id="game-container">
+        <button class="back-btn" onclick="goBackToMenu()">⬅ Back to Hub</button>
+        <div id="canvas-wrap"></div>
+        <div class="instructions" id="game-instructions"></div>
+    </div>
+
+    <script>
+        function loadGame(gameName) {
+            document.getElementById('hub-menu').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            const wrap = document.getElementById('canvas-wrap');
+            wrap.innerHTML = '<canvas id="gameCanvas" width="600" height="400"></canvas>';
+            
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            const inst = document.getElementById('game-instructions');
+
+            if(gameName === 'spaceShooter') {
+                inst.innerText = "Use Left/Right Arrow keys to move, Spacebar to shoot!";
+                ctx.fillStyle = "#ff3333";
+                ctx.font = "20px Arial";
+                ctx.fillText("Space Shooter Loaded (Demo)", 150, 200);
+            } else if(gameName === 'flappyRocket') {
+                inst.innerText = "Press Space or Click to fly up!";
+                ctx.fillStyle = "#ff3333";
+                ctx.font = "20px Arial";
+                ctx.fillText("Flappy Rocket Loaded (Demo)", 150, 200);
+            } else if(gameName === 'carRacing') {
+                inst.innerText = "Use Left/Right Arrow keys to steer the car!";
+                ctx.fillStyle = "#ff3333";
+                ctx.font = "20px Arial";
+                ctx.fillText("Car Racing Loaded (Demo)", 160, 200);
+            } else if(gameName === 'snakeGame') {
+                inst.innerText = "Use Arrow keys to control the snake!";
+                ctx.fillStyle = "#ff3333";
+                ctx.font = "20px Arial";
+                ctx.fillText("Snake Game Loaded (Demo)", 170, 200);
+            } else if(gameName === 'neonDodge') {
+                inst.innerText = "Use Left/Right Arrow keys to dodge blocks!";
+                ctx.fillStyle = "#ff3333";
+                ctx.font = "20px Arial";
+                ctx.fillText("Neon Dodge Loaded (Demo)", 170, 200);
+            }
+        }
+
+        function goBackToMenu() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('hub-menu').style.display = 'block';
+            document.getElementById('canvas-wrap').innerHTML = '';
+        }
+    </script>
 </body>
 </html>
