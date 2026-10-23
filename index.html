@@ -141,17 +141,20 @@
             border: 2px solid #ff6666;
             border-radius: 10px;
             font-size: 2rem;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: transform 0.3s ease, background 0.3s ease;
             box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+            color: #fff;
         }
         .memory-card-item:hover { transform: scale(1.05); }
         .memory-card-item.flipped {
             background: #1a0000;
             border-color: #ff3333;
+            color: #ff4d4d;
         }
 
         /* Quiz Game Styles */
@@ -216,6 +219,55 @@
         .option-btn.correct { background: rgba(0, 255, 0, 0.2); border-color: #00ff00; }
         .option-btn.wrong { background: rgba(255, 0, 0, 0.3); border-color: #ff0000; }
         
+        /* Quotes Section Styles */
+        .quotes-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 30px;
+            clear: both;
+        }
+        .quote-box {
+            background: linear-gradient(145deg, rgba(26, 0, 0, 0.9), rgba(15, 2, 2, 0.95));
+            border: 2px solid #ff3333;
+            border-radius: 15px;
+            padding: 35px 25px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .quote-text {
+            font-size: 1.2rem;
+            color: #ff9999;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-weight: bold;
+        }
+        .quote-author {
+            font-size: 0.95rem;
+            color: #b3b3b3;
+            font-style: italic;
+        }
+        .next-quote-btn {
+            background: linear-gradient(135deg, #ff3333, #cc0000);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(255, 51, 51, 0.5);
+            transition: all 0.3s ease;
+        }
+        .next-quote-btn:hover {
+            background: linear-gradient(135deg, #e60000, #990000);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.9);
+            transform: scale(1.05);
+        }
+
         .result-box {
             text-align: left;
             background: linear-gradient(145deg, rgba(26, 0, 0, 0.9), rgba(15, 2, 2, 0.95));
@@ -258,9 +310,9 @@
     </header>
 
     <div class="container">
-        <!-- Home / Game Selection Page -->
+        <!-- Home / Selection Page -->
         <div id="homePage" class="page-section active">
-            <h2 class="select-title">Select a Game to Play</h2>
+            <h2 class="select-title">Select an Option to Explore</h2>
             
             <div class="game-card" onclick="openGame('memory')">
                 <h3>🎮 Memory Match Game</h3>
@@ -268,8 +320,13 @@
             </div>
 
             <div class="game-card" onclick="openGame('quiz')">
-                <h3>🧠 Quiz Game</h3>
-                <p>Challenge your brain with 10 exciting random riddles and puzzles!</p>
+                <h3>🧠 Arique YTB Quiz Game</h3>
+                <p>Challenge your brain with 10 exciting random questions and riddles!</p>
+            </div>
+
+            <div class="game-card" onclick="openGame('quotes')">
+                <h3>📜 মূল্যবান বাণী (Inspirational Quotes)</h3>
+                <p>জীবনকে বদলে দেওয়ার মতো কিছু শিক্ষণীয় ও মূল্যবান বাণী পড়ুন!</p>
             </div>
         </div>
 
@@ -288,17 +345,32 @@
             <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
             <div class="quiz-wrap" id="quizWrap"></div>
         </div>
+
+        <!-- Quotes Section -->
+        <div id="quotesSection" class="page-section">
+            <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+            <div class="quotes-wrap">
+                <div class="quote-box">
+                    <div class="quote-text" id="quoteText">লোড হচ্ছে...</div>
+                    <div class="quote-author" id="quoteAuthor">- লেখক</div>
+                </div>
+                <button class="next-quote-btn" onclick="loadNextQuote()">পরবর্তী বাণী ➡</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        function openGame(gameType) {
+        function openGame(type) {
             document.getElementById('homePage').classList.remove('active');
-            if (gameType === 'memory') {
+            if (type === 'memory') {
                 document.getElementById('memorySection').classList.add('active');
                 initMemoryGame();
-            } else {
+            } else if (type === 'quiz') {
                 document.getElementById('quizSection').classList.add('active');
                 startQuiz();
+            } else if (type === 'quotes') {
+                document.getElementById('quotesSection').classList.add('active');
+                loadNextQuote();
             }
         }
 
@@ -308,7 +380,7 @@
         }
 
         // --- MEMORY GAME LOGIC ---
-        const memoryEmojis = ['🎮', '🔥', '🏆', '💎', '🚀', '⚡', '🎯', '💻'];
+        const memoryLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
         let memoryCards = [];
         let flippedCards = [];
         let matchedPairs = 0;
@@ -317,9 +389,9 @@
         let isLockMemory = false;
 
         function initMemoryGame() {
-            memoryCards = [...memoryEmojis, ...memoryEmojis]
+            memoryCards = [...memoryLetters, ...memoryLetters]
                 .sort(() => Math.random() - 0.5)
-                .map((emoji, index) => ({ id: index, emoji, isFlipped: false, isMatched: false }));
+                .map((letter, index) => ({ id: index, letter, isFlipped: false, isMatched: false }));
             
             memoryMoves = 0;
             memoryPoints = 0;
@@ -340,7 +412,7 @@
                 cardEl.classList.add('memory-card-item');
                 if (card.isFlipped || card.isMatched) {
                     cardEl.classList.add('flipped');
-                    cardEl.innerText = card.emoji;
+                    cardEl.innerText = card.letter;
                 } else {
                     cardEl.innerText = '?';
                 }
@@ -353,7 +425,7 @@
             if (isLockMemory || memoryCards[index].isFlipped || memoryCards[index].isMatched) return;
 
             memoryCards[index].isFlipped = true;
-            flippedCards.push({ index, emoji: memoryCards[index].emoji });
+            flippedCards.push({ index, letter: memoryCards[index].letter });
             renderMemoryBoard();
 
             if (flippedCards.length === 2) {
@@ -365,7 +437,7 @@
 
         function checkForMemoryMatch() {
             const [card1, card2] = flippedCards;
-            if (card1.emoji === card2.emoji) {
+            if (card1.letter === card2.letter) {
                 memoryCards[card1.index].isMatched = true;
                 memoryCards[card2.index].isMatched = true;
                 matchedPairs++;
@@ -373,8 +445,8 @@
                 document.getElementById('memoryPoints').innerText = memoryPoints;
                 flippedCards = [];
 
-                if (matchedPairs === memoryEmojis.length) {
-                    setTimeout(() => alert('🎉 Congratulations! You won the Memory Game!'), 300);
+                if (matchedPairs === memoryLetters.length) {
+                    setTimeout(() => alert('🎉 অভিনন্দন! আপনি মেমরি গেম জিতে গেছেন!'), 300);
                 }
             } else {
                 isLockMemory = true;
@@ -390,6 +462,15 @@
 
         // --- QUIZ GAME LOGIC ---
         const allQuizData = [
+            { q: "সূর্য কোন দিকে উদিত হয়?", options: ["পশ্চিম", "দক্ষিণ", "পূর্ব", "উত্তর"], correct: 2 },
+            { q: "বাংলাদেশের জাতীয় মাছ কোনটি?", options: ["রুই", "ইলিশ", "কাতলা", "শিং"], correct: 1 },
+            { q: "আমাদের জাতীয় পতাকার অনুপাত কত?", options: ["৩:২", "৫:৩", "১০:৬", "সবকটিই সঠিক"], correct: 3 },
+            { q: "পৃথিবীর সবচেয়ে বড় মহাদেশ কোনটি?", options: ["আফ্রিকা", "এশিয়া", "ইউরোপ", "অস্ট্রেলিয়া"], correct: 1 },
+            { q: "কম্পিউটারের ব্রেইন বা মস্তিষ্ক কাকে বলা হয়?", options: ["মাদারবোর্ড", "মনিটর", "সিপিইউ (CPU)", "র্যা ম (RAM)"], correct: 2 },
+            { q: "কোন রঙকে শান্তির প্রতীক বলা হয়?", options: ["লাল", "সাদা", "হলুদ", "কালো"], correct: 1 },
+            { q: "ক্রিকেট খেলায় এক দলে কতজন খেলোয়াড় মাঠে থাকে?", options: ["৯ জন", "১০ জন", "১১ জন", "১২ জন"], correct: 2 },
+            { q: "পানির রাসায়নিক সংকেত কী?", options: ["CO2", "H2O", "O2", "NaCl"], correct: 1 },
+            { q: "বাংলাদেশের সর্বউত্তরের জেলা কোনটি?", options: ["টেকনাফ", "পঞ্চগড়", "সাতক্ষীরা", "সিলেট"], correct: 1 },
             { q: "এমন কোন জিনিস, যা আপনি ডান হাত দিয়ে ধরতে পারলেও নিজের বাম হাত দিয়ে কখনোই ছুঁতে পারবেন না?", options: ["আপনার নিজের পিঠ", "আপনার বাম হাতের কনুই", "আপনার ডান হাতের কবজি", "আপনার মাথার চুল"], correct: 1 },
             { q: "একটি রুমের ভেতর চারকোনা একটি টেবিল আছে। টেবিলের চার কোনায় চারটি বিড়াল বসে আছে। প্রতিটি বিড়ালের সামনে আরও তিনটি করে বিড়াল আছে। বলুন তো, ওই রুমে মোট কয়টি বিড়াল আছে?", options: ["১২টি", "১৬টি", "৪টি", "৮টি"], correct: 2 },
             { q: "এমন কোন ড্রাইভার আছে যার কোনো লাইসেন্স লাগে না, এমনকি সে কোনো গাড়িও চালায় না?", options: ["স্ক্রু-ড্রাইভার (Screw-driver)", "ট্রেন ড্রাইভার", "পাইলট", "বাস ড্রাইভার"], correct: 0 },
@@ -406,17 +487,7 @@
             { q: "এমন কোন নদী, যার মধ্যে কোনো জল বা পানি নেই, আবার কোনো শহর বা দেশ পার হতে গেলে কোনো রাস্তার প্রয়োজন হয় না?", options: ["স্বপ্নের নদী", "ম্যাপ বা মানচিত্রের নদী", "শুকনো নদী", "আকাশগঙ্গা বা ছায়াপথ"], correct: 1 },
             { q: "কোন জিনিসটি একবার ভেঙে গেলে আর জোড়া লাগানো যায় না, এমনকি সারা পৃথিবীর ডাক্তার মিলেও এটিকে ঠিক করতে পারে না?", options: ["কাঁচ", "ডিম", "বিশ্বাস", "ঘড়ি"], correct: 2 },
             { q: "এমন কোন জিনিস যা নিজের কোনো পা নেই, তবুও সে সারাদিন শুধু ছুটেই চলে এবং কোথাও থেমে থাকে না?", options: ["নদী", "বাতাস", "ঘড়ি", "সময়"], correct: 3 },
-            {q: "বাংলাদেশের জাতীয় কবির নাম কী?", options: ["কাজী নজরুল ইসলাম", "রবীন্দ্রনাথ ঠাকুর", "জসীমউদ্দীন", "শামসুর রাহমান"], correct: 0},
-            {q: "সূর্য কোন দিকে উদিত হয়?", options: ["পশ্চিম", "দক্ষিণ", "পূর্ব", "উত্তর"], correct: 2},
-            {q: "বাংলাদেশের জাতীয় মাছ কোনটি?", options: ["রুই", "ইলিশ", "কাতলা", "শিং"],correct: 1},
-            {q: "আমাদের জাতীয় পতাকার অনুপাত কত?", options: ["৩:২", "৫:৩", "১০:৬", "সবকটিই সঠিক"], correct: 3},
-            {q: "পৃথিবীর সবচেয়ে বড় মহাদেশ কোনটি?", options: ["আফ্রিকা", "এশিয়া", "ইউরোপ", "অস্ট্রেলিয়া"], correct: 1},
-            {q: "কম্পিউটারের ব্রেইন বা মস্তিষ্ক কাকে বলা হয়?", options: ["মাদারবোর্ড", "মনিটর", "সিপিইউ (CPU)", "র্যা ম (RAM)"], correct: 2},
-            {q: "কোন রঙকে শান্তির প্রতীক বলা হয়?", options: ["লাল", "সাদা", "হলুদ", "কালো"], correct: 1},
-            {q: "ক্রিকেট খেলায় এক দলে কতজন খেলোয়াড় মাঠে থাকে?", options: ["৯ জন", "১০ জন", "১১ জন", "১২ জন"], correct: 2},
-            {q: "পানির রাসায়নিক সংকেত কী?", options: ["CO2", "H2O", "O2", "NaCl"], correct: 1},
-            {q: "বাংলাদেশের সর্বউত্তরের জেলা কোনটি?", options: ["টেকনাফ", "পঞ্চগড়", "সাতক্ষীরা", "সিলেট"], correct: 1},
-        
+            { q: "বাংলাদেশের জাতীয় কবির নাম কী?", options: ["কাজী নজরুল ইসলাম", "রবীন্দ্রনাথ ঠাকুর", "জসীমউদ্দীন", "শামসুর রাহমান"], correct: 0 }
         ];
 
         let gameQuestions = [];
@@ -524,6 +595,37 @@
                     <button class="restart-btn" onclick="startQuiz()">PLAY AGAIN</button>
                 </div>
             `;
+        }
+
+        // --- VALUABLE QUOTES LOGIC (20 Quotes) ---
+        const quotesData = [
+            { text: "সময় নদীর স্রোতের মতো—আজকের এই মুহূর্তটি চলে গেলে আর কখনো ফিরে পাবে না। তাই যা করার আজই করো, কারণ কাল বলে কিছু নেই।", author: "সংগৃহীত" },
+            { text: "মানুষের সবচেয়ে বড় সম্পদ হলো তার নিজের প্রতি বিশ্বাস। সেই বিশ্বাসের শক্তিতেই সব অসম্ভবকে সম্ভব করা যায়।", author: "সংগৃহীত" },
+            { text: "জ্ঞান মানুষকে বিনয়ী করে তোলে। আর বিনয় মানুষকে সবার প্রিয় করে তোলে।", author: "সংগৃহীত" },
+            { text: "সাফল্যের চাবিকাঠি হলো ধৈর্য ও প্রচেষ্টা। ব্যর্থতা মানেই শেষ নয়, বরং নতুন করে শুরু করার সুযোগ।", author: "সংগৃহীত" },
+            { text: "জীবনে বড় হতে হলে সবার আগে বড় মনের অধিকারী হতে হবে, কারণ সম্মান অর্জিত হয়, জোর করে পাওয়া যায় না।", author: "সংগৃহীত" },
+            { text: "রাগ মানুষের সবচেয়ে বড় শত্রু। রাগের মাথায় কোনো সিদ্ধান্ত নেওয়া মানে নিজের ক্ষতি ডেকে আনা।", author: "সংগৃহীত" },
+            { text: "সৎ পথে চলা কঠিন, কিন্তু এর শেষ ফল সবসময় মধুর ও শান্তিপ্রিয় হয়।", author: "সংগৃহীত" },
+            { text: "অন্যকে পরিবর্তন করার চেয়ে নিজের ভুল শুধরে নেওয়া অনেক বেশি বুদ্ধিমানের কাজ।", author: "সংগৃহীত" },
+            { text: "মুখের কথায় কাউকে আপন করা যায় না, মানুষের বিপদে পাশে দাঁড়িয়েই প্রকৃত আপন হওয়া যায়।", author: "সংগৃহীত" },
+            { text: "সুযোগের অপেক্ষায় বসে না থেকে নিজের যোগ্যতায় সুযোগ তৈরি করে নাও, সাফল্য তোমার কাছে আসবেই।", author: "সংগৃহীত" },
+            { text: "অতীতকে পরিবর্তন করা যায় না, কিন্তু বর্তমানের সঠিক ব্যবহারের মাধ্যমে ভবিষ্যৎকে সুন্দর করা সম্ভব।", author: "সংগৃহীত" },
+            { text: "জীবনে সুখ কোনো অর্জিত বস্তু নয়, এটি মানসিক অবস্থা যা ছোট ছোট সন্তুষ্টির মধ্যে লুকিয়ে থাকে।", author: "সংগৃহীত" },
+            { text: "কঠোর পরিশ্রম ও সততা ছাড়া দীর্ঘস্থায়ী সাফল্য পাওয়া অসম্ভব। শর্টকাট পথ কখনো স্থায়ী হয় না।", author: "সংগৃহীত" },
+            { text: "মানুষের প্রকৃত চরিত্র বোঝা যায় সে তার নিচের পদের বা দুর্বল মানুষের সাথে কেমন আচরণ করে, তা দেখে।", author: "সংগৃহীত" },
+            { text: "ক্ষমা বীরের লক্ষণ। ক্ষমা করার ক্ষমতা যার আছে, তার ব্যক্তিত্ব সবার চেয়ে আলাদা।", author: "সংগৃহীত" },
+            { text: "তোমার লক্ষ্য যদি স্পষ্ট থাকে, তবে হাজারটা বাধা এলেও তুমি তোমার গন্তব্যে পৌঁছাতে পারবে।", author: "সংগৃহীত" },
+            { text: "সত্যিকারের বন্ধু সেই যে বিপদের দিনে দূরে সরে যায় না, বরং ছায়ার মতো পাশে থাকে।", author: "সংগৃহীত" },
+            { text: "অহংকার পতনের মূল। মাটিতে পা রেখে চলতে শিখলে জীবন অনেক সুন্দর হয়।", author: "সংগৃহীত" },
+            { text: "প্রতিদিন একটু একটু করে নিজের উন্নতি করো, কালকের তুমি যেন আজকের তুমির চেয়ে উন্নত হয়।", author: "সংগৃহীত" },
+            { text: "জীবন একবারই পাওয়া যায়, তাই এটাকে অনুশোচনায় নষ্ট না করে ভালো কাজ ও সততায় ভরিয়ে তোলো।", author: "সংগৃহীত" }
+        ];
+
+        function loadNextQuote() {
+            let randomIndex = Math.floor(Math.random() * quotesData.length);
+            let q = quotesData[randomIndex];
+            document.getElementById('quoteText').innerText = `"${q.text}"`;
+            document.getElementById('quoteAuthor').innerText = `- ${q.author}`;
         }
     </script>
 </body>
